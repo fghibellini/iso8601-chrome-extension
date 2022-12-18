@@ -14,7 +14,7 @@ Example use cases include:
 
 ### Step 1
 
-Fork this repo
+[Fork](https://github.com/fghibellini/chrome-annotation-extension-template/fork) this repo.
 
 ### Step 2: Modify the [manifest.json](./manifest.json)
 
