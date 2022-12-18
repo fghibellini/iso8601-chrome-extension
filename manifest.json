@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "{{ your extension name }}",
+  "version": "1.0",
+  "description": "{{ your description }}",
+  "content_scripts": [
+    {
+      "js": ["dist/content.js"],
+      "css": ["dist/content.css"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ]
+}
