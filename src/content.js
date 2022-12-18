@@ -26,16 +26,23 @@ function uuidMatchingFn(node) {
   }
 }
 
-function uuidResolveFn(uuid) {
+async function uuidResolveFn(uuid) {
+  const knownUUIDs = [
+    { uuid: '7a18a230-f4d0-4fbb-b706-0a16479409a5', html: `The best <b>UUID</b> ever!` }
+  ]
+  const matchingResult = knownUUIDs.find(x => x.uuid === uuid);
+  const html = matchingResult ? matchingResult.html : `<i>UNKNOWN UUID</i>`;
+  await randomDelay(200, 2000);
+  return html;
+}
+
+
+// to simulate network latency
+async function randomDelay(minMs, maxMs) {
+  const delay = minMs + Math.random() * (maxMs - minMs);
   return new Promise(resolve => {
-    const knownUUIDs = [
-      { uuid: '7a18a230-f4d0-4fbb-b706-0a16479409a5', html: `The best <b>UUID</b> ever!` }
-    ]
-    const matchingResult = knownUUIDs.find(x => x.uuid === uuid);
-    const html = matchingResult ? matchingResult.html : `<i>UNKNOWN UUID</i>`;
-    const delay = 200 + Math.random() * 2000; // 200..2200 ms of delay
     setTimeout(() => {
-      resolve(html);
+      resolve();
     }, delay);
   });
 }
