@@ -26,14 +26,37 @@ export function init({ matchingFn, resolveFn, checkIntervalMs }) {
       const parent = currentNode.parentElement
       if (!isDecorated(parent)) {
         const matchedValue = matchingFn(currentNode)[0];
-        const tooltipHtmlContents = resolveFn(matchedValue);
         const actionIcon = createActionIcon()
+        const loaderHtml = createLoaderDom()
         parent.appendChild(actionIcon);
+        let triggered = false;
         tippy(actionIcon, {
-          content: tooltipHtmlContents,
+          content: loaderHtml,
           allowHTML: true,
-          interactive: true
+          interactive: true,
+          onShow: instance => {
+            if (!triggered) {
+              triggered = true;
+              refreshContents();
+            }
+          }
         });
+        let invalidationId = 0;
+        function refreshContents() {
+          const reqId = ++invalidationId
+          resolveFn(matchedValue)
+            .then(tooltipHtmlContents => {
+              if (reqId === invalidationId) {
+                loaderHtml.innerHTML = tooltipHtmlContents;
+              }
+            }, err => {
+              if (reqId === invalidationId) {
+                // TODO show error information
+                // TODO add a retry button
+                loaderHtml.innerHTML = `Error!`;
+              }
+            });
+        }
       }
     }
   }, checkIntervalMs || defaultCheckIntervalMs)
@@ -48,5 +71,12 @@ function createActionIcon() {
   actionIcon.classList.add(`arl-action-icon`);
   actionIcon.textContent = `ℹ️`;
   return actionIcon;
+}
+
+function createLoaderDom() {
+  const root = document.createElement("div")
+  root.classList.add(`arl-loading-view`);
+  root.innerHTML = `Loading...`;
+  return root;
 }
 
