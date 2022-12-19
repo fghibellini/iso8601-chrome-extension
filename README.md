@@ -20,7 +20,7 @@ See the accompanying [blog post](https://fghibellini.com/posts/2022-12-17-Levera
 
 ### Step 2: Modify the [manifest.json](./manifest.json)
 
-Specify what your extension's name is and add a brief description for your users.
+Specify what your extension's name is and specify on [which domains it should run](https://github.com/fghibellini/chrome-annotation-extension-template/blob/master/manifest.json#L11).
 
 ### Step 3: Define a matching function
 
