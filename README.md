@@ -10,6 +10,8 @@ Example use cases include:
 1. annotate currency values with conversions
 1. add explanations on top of cryptic notation that you came up with
 
+See the accompanying [blog post](https://fghibellini.com/posts/2022-12-17-Leveraging-UUIDs-to-the-Max/index.html) for a deeper explanation.
+
 ## Steps
 
 ### Step 1
@@ -87,8 +89,3 @@ Now you can [load your unpacked extension](https://developer.chrome.com/docs/ext
 ### Step 7: Keep up to date
 
 By only modifying [manifest.json](./manifest.json) and [content.js](src/content.js) and reguarly merging the changes from this upstream repository you can take full advantage of any future changes in this template!
-
-## More
-
-- See the accompanying [blog post](https://fghibellini.com/posts/2022-12-17-Leveraging-UUIDs-to-the-Max/index.html) with a deeper explanation.
-
