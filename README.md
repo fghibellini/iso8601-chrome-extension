@@ -10,7 +10,9 @@ Example use cases include:
 1. annotate currency values with conversions
 1. add explanations on top of cryptic notation that you came up with
 
-See the accompanying [blog post](https://fghibellini.com/posts/2022-12-17-Leveraging-UUIDs-to-the-Max/index.html) for a deeper explanation.
+## Blog Post
+
+See the accompanying __[blog post](https://fghibellini.com/posts/2022-12-17-Leveraging-UUIDs-to-the-Max/index.html)__ for a deeper explanation.
 
 ## Steps
 
