@@ -6,10 +6,10 @@
  * specific to your extension.                      *
  ****************************************************/
 
-import { init } from './framework';
+import { init, stringTrigger } from './framework';
 
-// https://stackoverflow.com/a/14322189
-const iso8601Regex = /([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?/
+// https://stackoverflow.com/a/3143231/3343425
+const iso8601Regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
 
 
 function iso8601MatchingFn(node) {
@@ -27,9 +27,12 @@ function iso8601MatchingFn(node) {
   }
 }
 
-async function uuidResolveFn(strDate) {
+async function iso8601ResolveFn(strDate) {
   const matchingResult = new Date(strDate);
-  const html = matchingResult ? matchingResult.toLocaleDateString() : `<i>UNKNOWN UUID</i>`;
+  const html = `
+    Local: ${matchingResult.toLocaleString()}<br>
+    UTC: ${matchingResult.toISOString()}
+  `;
   await randomDelay(200, 300);
   return html;
 }
@@ -49,10 +52,12 @@ async function randomDelay(minMs, maxMs) {
 // = MAIN =
 // ========
 
-console.log("{{ your extension name }} loaded!")
+console.log("ISO8601 datetime formatter loaded!")
 
 init({
-  matchingFn: uuidMatchingFn,
-  resolveFn: uuidResolveFn
+  matchingFn: iso8601MatchingFn,
+  resolveFn: iso8601ResolveFn,
+  triggerConfig: stringTrigger('🕑'),
+  nestedCheck: true
 })
 
