@@ -14,7 +14,8 @@ import './framework.css';
 
 const defaultCheckIntervalMs = 200;
 
-export function init({ matchingFn, resolveFn, checkIntervalMs }) {
+export function init({ matchingFn, resolveFn, checkIntervalMs, triggerConfig }) {
+  const _triggerConfig = triggerConfig || stringTrigger(`ℹ️`);
   setInterval(() => {
     const iterator = document.createNodeIterator(
       document.getRootNode(),
@@ -23,14 +24,12 @@ export function init({ matchingFn, resolveFn, checkIntervalMs }) {
     )
 
     while (currentNode = iterator.nextNode()) {
-      const parent = currentNode.parentElement
-      if (!isDecorated(parent)) {
+      if (!_triggerConfig.hasTrigger(currentNode)) {
         const matchedValue = matchingFn(currentNode)[0];
-        const actionIcon = createActionIcon()
+        const trigger = _triggerConfig.createTrigger(currentNode)
         const loaderHtml = createLoaderDom()
-        parent.appendChild(actionIcon);
         let triggered = false;
-        tippy(actionIcon, {
+        tippy(trigger.triggerElement, {
           content: loaderHtml,
           allowHTML: true,
           interactive: true,
@@ -62,21 +61,35 @@ export function init({ matchingFn, resolveFn, checkIntervalMs }) {
   }, checkIntervalMs || defaultCheckIntervalMs)
 }
 
-function isDecorated(element) {
-  return Array.from(element.children).some(x => x.classList.contains(`arl-action-icon`))
-}
-
-function createActionIcon() {
-  const actionIcon = document.createElement("div")
-  actionIcon.classList.add(`arl-action-icon`);
-  actionIcon.textContent = `ℹ️`;
-  return actionIcon;
-}
-
 function createLoaderDom() {
   const root = document.createElement("div")
   root.classList.add(`arl-loading-view`);
   root.innerHTML = `Loading...`;
   return root;
+}
+
+export stringTrigger(triggerText) {
+
+  function createActionIcon(matchedElement) {
+    const parent = matchedElement.parentElement
+    const actionIcon = document.createElement("div")
+    actionIcon.classList.add(`arl-action-icon`);
+    actionIcon.textContent = triggerText;
+    parent.appendChild(actionIcon);
+    return {
+      triggerElement: actionIcon
+    }
+  }
+
+  function isDecorated(node) {
+    const parent = node.parentElement
+    return Array.from(parent.children).some(x => x.classList.contains(`arl-action-icon`))
+  }
+
+  return {
+    createTrigger: createActionIcon
+    hasTrigger: isDecorated
+  }
+
 }
 
