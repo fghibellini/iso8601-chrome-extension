@@ -14,8 +14,10 @@ import './framework.css';
 
 const defaultCheckIntervalMs = 200;
 
-export function init({ matchingFn, resolveFn, checkIntervalMs, triggerConfig }) {
+export function init({ matchingFn, resolveFn, checkIntervalMs, triggerConfig, nestedCheck }) {
+
   const _triggerConfig = triggerConfig || stringTrigger(`ℹ️`);
+
   setInterval(() => {
     const iterator = document.createNodeIterator(
       document.getRootNode(),
@@ -24,7 +26,7 @@ export function init({ matchingFn, resolveFn, checkIntervalMs, triggerConfig }) 
     )
 
     while (currentNode = iterator.nextNode()) {
-      if (!_triggerConfig.hasTrigger(currentNode)) {
+      if (!_triggerConfig.hasTrigger(currentNode) && (!nestedCheck || !isTooltipDescendant(currentNode))) {
         const matchedValue = matchingFn(currentNode)[0];
         const trigger = _triggerConfig.createTrigger(currentNode)
         const loaderHtml = createLoaderDom()
@@ -66,6 +68,10 @@ function createLoaderDom() {
   root.classList.add(`arl-loading-view`);
   root.innerHTML = `Loading...`;
   return root;
+}
+
+function isTooltipDescendant(element) {
+  return !!element.closest("*[data-tippy-root]");
 }
 
 export stringTrigger(triggerText) {
