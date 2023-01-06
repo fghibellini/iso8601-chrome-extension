@@ -70,8 +70,9 @@ function createLoaderDom() {
   return root;
 }
 
-function isTooltipDescendant(element) {
-  return !!element.closest("*[data-tippy-root]");
+function isTooltipDescendant(node) {
+  const parent = node.parentElement
+  return !!(parent.matches("*[data-tippy-root]") || parent.closest("*[data-tippy-root]"));
 }
 
 export function stringTrigger(triggerText) {
