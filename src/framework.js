@@ -93,7 +93,7 @@ export function stringTrigger(triggerText) {
   }
 
   return {
-    createTrigger: createActionIcon
+    createTrigger: createActionIcon,
     hasTrigger: isDecorated
   }
 
