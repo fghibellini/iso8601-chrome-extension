@@ -74,7 +74,7 @@ function isTooltipDescendant(element) {
   return !!element.closest("*[data-tippy-root]");
 }
 
-export stringTrigger(triggerText) {
+export function stringTrigger(triggerText) {
 
   function createActionIcon(matchedElement) {
     const parent = matchedElement.parentElement
