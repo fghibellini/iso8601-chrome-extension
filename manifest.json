@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "{{ your extension name }}",
+  "name": "ISO8601 Local formatter",
   "version": "1.0",
-  "description": "{{ your description }}",
+  "description": "formats any ISO8601 formatted date to your local date format",
   "content_scripts": [
     {
       "js": ["dist/content.js"],
