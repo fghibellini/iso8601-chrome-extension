@@ -29,6 +29,7 @@ function iso8601MatchingFn(node) {
 
 async function iso8601ResolveFn(strDate) {
   const matchingResult = new Date(strDate);
+  // the UTC value is repeated in the HTML only to test that `nestedCheck` works
   const html = `
     Local: ${matchingResult.toLocaleString()}<br>
     UTC: ${matchingResult.toISOString()}
